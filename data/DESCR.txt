@@ -1,0 +1,26 @@
+.. _burkert_valveinsight_switching_dataset:
+
+Switching current dataset
+-------------------------
+
+**Data Set Characteristics:**  
+
+    :Number of Instances: 81
+
+    :Number of Attributes: 1 numeric/categorical predictive.
+
+    :Attribute Information:
+        - fault                     normal operation or valve switching fault
+
+    :Missing Attribute Values: NaN, when fault mode is not applicable.
+
+    :Creator: Hlubek, Dr. Nikolai
+
+This is a set of experiments conducted by Buerkert.
+The current during the switching of a valve as function of time was measured.
+Each of these current curves is described by a set of attributes.
+
+This dataset illustrates how the switching detection algorithm works.
+
+..  copyright:: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) 
+https://creativecommons.org/licenses/by-nc-nd/4.0/.

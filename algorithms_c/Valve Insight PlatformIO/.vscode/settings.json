@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "math_helpers.h": "c",
+        "math.h": "c",
+        "string.h": "c"
+    }
+}

@@ -1,0 +1,26 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Declare files that will always have CRLF line endings on checkout.
+*.py text eol=lf
+*.ipynb text eol=lf
+
+
+# Git Large File System (LFS)
+
+# Declare large file storage for all data, info and results files
+# use LFS tool for filter, diff and merge
+# -text so git knows the files are not text files
+
+# Pictures 
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+
+# Office
+*.xlsx filter=lfs diff=lfs merge=lfs -text
+*.docx filter=lfs diff=lfs merge=lfs -text
+
+# Data
+*.tdms filter=lfs diff=lfs merge=lfs -text
+*.pkl filter=lfs diff=lfs merge=lfs -text
+*.csv filter=lfs diff=lfs merge=lfs
