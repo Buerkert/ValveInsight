@@ -1,3 +1,6 @@
+<img src="images/logo.png" alt="Bürkert Fluid Control Systems" width="240">
+
+
 # Valve insight - Switching analysis
 
 This project showcases key algorithms from the Valve Insight portfolio, focused on analyzing valve switching behavior.
@@ -9,8 +12,6 @@ This project showcases key algorithms from the Valve Insight portfolio, focused 
 The sample data included in this repository was recorded using the Valve Insight Evaluation Kit. For comparison, we also provide example curves captured using high-end laboratory instrumentation.
 
 If you have specific requirements or are interested in a tailored solution, please don’t hesitate to contact us.
-
-Bürkert Fluid Control Systems
 
 
 ### Getting Started
