@@ -15,6 +15,7 @@ def switching_duration_inside_band(time_ms:np.array, current_mA:np.array, band=0
 
     first_idx_inside_band = len(current_mA) - 1
     last_good_i = len(current_mA) - 1
+    # Find fist value outside of band going from last value to first
     for i in np.arange(len(current_mA)-1, -1, -1):
         if (current_mA[i] < I_lower_band) or (current_mA[i] > I_upper_band):
             first_idx_inside_band = last_good_i

@@ -1,0 +1,11 @@
+__version__ = '1.0.0'
+
+from .switching_detection_fixed import switching_detection_fixed
+from .switching_detection_online import switching_detection_online
+from .switching_detection_tail_slope import switching_detection_tail_slope
+
+from .switching_duration_inside_band import switching_duration_inside_band
+from .switching_duration_integral_threshold import switching_duration_integral_threshold
+from .switching_duration_online import switching_duration_online
+from .switching_duration_tail_slope import switching_duration_tail_slope
+
