@@ -19,8 +19,8 @@ If you have specific requirements or are interested in a tailored solution, plea
 The algorithms are available in both Python and C.
 
 **Python**
-A Jupyter Notebook is included to demonstrate the Python algorithms and visualize their results.
-You can run the notebook using the provided Dockerfile or in any local Jupyter environment.
+A [Jupyter Notebook](https://jupyter.org) is included to demonstrate the Python algorithms and visualize their results.
+You can run the [included notebook](Switching%20analysis.ipynb) using the provided Dockerfile or in any local Jupyter environment.
 
 **C**
 The C implementations are delivered as a [PlatformIO](https://platformio.org) project, complete with unit tests for verification and validation.
