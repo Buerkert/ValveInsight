@@ -1,5 +1,5 @@
 extern "C" {
-    #include <switchingDetectionFixed.h>
+    #include <switchingDurationInsideBand.h>
 }
 
 #include <unity.h>
@@ -8,12 +8,12 @@ int16_t currents[] = { 14635, 21495, 22855, 23315, 23290, 23035, 22710, 22430, 2
 
 
 void setUp(void) {
-    switchingDetectionFixed_Reset();
+    switchingDurationInsideBand_Reset();
     
     size_t length = sizeof(currents) / sizeof(currents[0]);
 
     for (size_t i = 0; i < length; ++i) {
-        switchingDetectionFixed_StoreADC(currents[i]);
+        switchingDurationInsideBand_StoreADC(currents[i]);
     }
 }
 
@@ -21,15 +21,15 @@ void tearDown(void) {
     // pass
 }
 
-void test_switchingDetectionFixed_example() {
-    double integral = switchingDetectionFixed_Calculate(0.05);
-    TEST_ASSERT_FLOAT_WITHIN(1e-4, 1.30, integral);
+void test_switchingDurationInsideBand_example() {
+    double duration = switchingDurationInsideBand_Calculate(0.05, 0.1);
+    TEST_ASSERT_FLOAT_WITHIN(1e-4, 4.1, duration);
 }
 
 int main(int argc, char **argv) 
  { 
     UNITY_BEGIN();
-    RUN_TEST(test_switchingDetectionFixed_example);
+    RUN_TEST(test_switchingDurationInsideBand_example);
     UNITY_END();
   
      return 0; 

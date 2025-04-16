@@ -9,6 +9,14 @@
 			],
 			"group": "test",
 			"label": "PlatformIO: Test"
+		},
+		{
+			"type": "PlatformIO",
+			"task": "Verbose Test (native)",
+			"problemMatcher": [
+				"$platformio"
+			],
+			"label": "PlatformIO: Verbose Test (native)"
 		}
 	]
 }
