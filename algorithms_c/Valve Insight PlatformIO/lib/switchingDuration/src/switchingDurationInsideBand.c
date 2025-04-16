@@ -4,9 +4,6 @@
 #include <math.h>
 #include <string.h>
 
-#include <stdio.h>  // REMOVE
-
-
 #define INRUSH_CURRENT_VALUES     500
 #define TAIL_WINDOW_SIZE          100
 

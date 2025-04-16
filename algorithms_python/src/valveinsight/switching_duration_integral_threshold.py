@@ -15,9 +15,6 @@ def switching_duration_integral_threshold(time_ms:np.array, current_mA:np.array,
         current_inv_norm = current_inv / tail_mean
         integral += current_inv_norm * time_step_ms
 
-#        print(integral, integral_switching_detection)
-
-#        if integral_threshold - np.abs(integral) < 1e-6:
         if integral >= integral_threshold:
             duration_idx = idx
             break
