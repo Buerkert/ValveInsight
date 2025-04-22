@@ -20,7 +20,7 @@ size_t safe_increment(size_t x) {
     }
 }
 
-double round2(double x) {
+float round2(float x) {
     return round(x * 100.0) / 100.0;
 }
 
@@ -38,20 +38,20 @@ void switchingDetectionFixed_StoreADC(int16_t adcValue) {
 	n = safe_increment(n);
 }
 
-double switchingDetectionFixed_Calculate(double timestep) {
+float switchingDetectionFixed_Calculate(float timestep) {
 	// Calculate tail mean
-	double tailMean = 0;
+	float tailMean = 0;
 
 	for (uint16_t i = INRUSH_CURRENT_VALUES - TAIL_WINDOW_SIZE; i < INRUSH_CURRENT_VALUES; ++i) {
-		tailMean += (double)current[i];
+		tailMean += (float)current[i];
 	}
 
 	tailMean /= TAIL_WINDOW_SIZE;
 
 	// Calculate integral
-	double integral = 0;
+	float integral = 0;
 	for (uint16_t i = 0; i < INRUSH_CURRENT_VALUES; ++i) {
-		integral += (tailMean - (double)current[i]) / tailMean;
+		integral += (tailMean - (float)current[i]) / tailMean;
 	}
 	integral *= timestep;
 	integral = fabs(integral); 
