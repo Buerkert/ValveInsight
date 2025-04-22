@@ -40,22 +40,31 @@ void switchingDetectionFixed_StoreADC(int16_t adcValue) {
 
 float switchingDetectionFixed_Calculate(float timestep) {
 	// Calculate tail mean
-	float tailMean = 0;
+	int32_t sum = 0;
 
 	for (uint16_t i = INRUSH_CURRENT_VALUES - TAIL_WINDOW_SIZE; i < INRUSH_CURRENT_VALUES; ++i) {
-		tailMean += (float)current[i];
+		sum += current[i];
 	}
 
-	tailMean /= TAIL_WINDOW_SIZE;
+	float tailMean = (float)sum / TAIL_WINDOW_SIZE;
 
-	// Calculate integral
-	float integral = 0;
-	for (uint16_t i = 0; i < INRUSH_CURRENT_VALUES; ++i) {
-		integral += (tailMean - (float)current[i]) / tailMean;
-	}
+  // Calculate integral
+  float integral = 0;
+  // tail sum is already in 'sum' so add only the missing values before the tail
+  for (uint16_t i = 0; i < INRUSH_CURRENT_VALUES - TAIL_WINDOW_SIZE; ++i) {
+    sum += current[i];
+  }
+
+	integral = INRUSH_CURRENT_VALUES - (float)sum / tailMean ;
 	integral *= timestep;
 	integral = fabs(integral); 
 	integral = round2(integral);
 
 	return integral;
 }
+
+// Explanation of the integral calculation
+// integral += (tailMean - (float)current[i]) / tailMean;
+// integral += tailMean / tailMean - (float)current[i] / tailMean;
+// integral += 1 - (float)current[i] / tailMean;
+// integral = INRUSH_CURRENT_VALUES - sum / tailMean;
