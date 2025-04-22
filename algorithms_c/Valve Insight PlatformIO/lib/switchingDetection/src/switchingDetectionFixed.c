@@ -9,33 +9,27 @@
 
 static size_t n;
 static int16_t current[INRUSH_CURRENT_VALUES];
-
-
-// Increment without overflow 
-size_t safe_increment(size_t x) {
-    if (x < SIZE_MAX) {
-        return x + 1;
-    } else {
-        return x;
-    }
-}
+// avoid increment overflow -> do not allow buffer size greater than SIZE_MAX
+_Static_assert(INRUSH_CURRENT_VALUES < SIZE_MAX, "Buffer is too big!");
 
 float round2(float x) {
     return round(x * 100.0) / 100.0;
 }
-
 
 void switchingDetectionFixed_Reset(void) {
 	n = 0;
 	memset(current, 0, sizeof(current));
 }
 
-void switchingDetectionFixed_StoreADC(int16_t adcValue) {
+bool switchingDetectionFixed_fast_StoreADC(int16_t adcValue) {
 	// Store current adc value
 	if(n < INRUSH_CURRENT_VALUES) {
 		current[n] = adcValue;
+	  ++n;
+    return true;
 	}
-	n = safe_increment(n);
+	// buffer is full
+  return false;
 }
 
 float switchingDetectionFixed_Calculate(float timestep) {
