@@ -6,9 +6,7 @@ extern "C" {
 
 #include <stdint.h>
 
-/**
- * Reset the internal state (e.g., clears stored ADC values).
- */
+/** @brief Reset internal state and clear ADC buffer. */
 void switchingDurationInsideBand_Reset(void);
 
 /**

@@ -15,7 +15,7 @@ class switching_duration_online:
         self.tail_slope_max = tail_slope_max
 
     def switching_duration_online(self, current_mA:float, timestep_ms:float):
-        if len(self.tail_window) > self.tail_window_size:
+        if len(self.tail_window) >= self.tail_window_size:
             self.tail_window.pop(0)
         self.tail_window.append(current_mA)
         self.n += 1

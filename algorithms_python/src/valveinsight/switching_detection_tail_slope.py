@@ -1,24 +1,24 @@
 import scipy.stats
 import numpy as np
 
-def switching_detection_tail_slope(time:np.array, current:np.array):
+def switching_detection_tail_slope(time:np.array, current:np.array, slope_threshold=0.002):
     """
     Calculate tail mean from last 10 ms in data starting from a duration of 20 ms. 
     Check if tail is constant enough. If not increase duration by 1 ms and move window. 
     """
 
     t_mean_slope_ms = 10
-    t_duration_ms = 20
+    t_duration_ms = 19.95
     
     tail_const = False
     while tail_const == False:
-        I = current[time < t_duration_ms]
-        t = time[time < t_duration_ms]
+        I = current[time <= t_duration_ms]
+        t = time[time <= t_duration_ms]
         
         res = scipy.stats.linregress(t[t >  t.max()-t_mean_slope_ms], I[t >  t.max()-t_mean_slope_ms])
-        tail_slope = res[0]
+        tail_slope = np.abs(res[0])
 
-        if tail_slope < 0.002:
+        if tail_slope < slope_threshold:
             tail_const = True
         elif t_duration_ms+1 > time.max():
             break
