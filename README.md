@@ -22,7 +22,7 @@ If you have specific requirements or are interested in a tailored solution, plea
 
 The algorithms are available in both Python and C, allowing flexible integration into various environments.  
 
-**Python**
+### Python
 Interactive [Jupyter Notebooks](https://jupyter.org) are provided for demonstration and visualization. Run them by using the provided Dockerfile or in any local Jupyter environment. 
 
 - **[Getting started notebook](01%20-%20Switching%20analysis%20-%20Getting%20started.ipynb):** A guided introduction to the core algorithms. 
@@ -30,15 +30,15 @@ Interactive [Jupyter Notebooks](https://jupyter.org) are provided for demonstrat
 - **[Advanced notebook](02%20-%20Switching%20analysis%20-%20Advanced.ipynb):** Explores more sophisticated use cases and edge-case handling.
 
 
-**C**
+### C
 The C implementations are delivered as a [PlatformIO](https://platformio.org) project, complete with unit tests for verification and validation.
 
 
-### Additional Resources
+## Additional Resources
 
 More information is available on our [Valve Insight landing page](https://www.buerkert.de/de/landingpage/zuverlaessige-analysegeraete-durch-diagnose-mit-valveinsight).
 
 
-### License
+## License
 
 Please refer to the [LICENSE](LICENSE.md) file for licensing details.
