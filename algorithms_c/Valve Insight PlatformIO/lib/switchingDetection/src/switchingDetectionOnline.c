@@ -7,11 +7,11 @@
 #define TAIL_WINDOW_SIZE          200
 
 static size_t n;
-static double integral = 0;
-static double tailWindow[TAIL_WINDOW_SIZE];
+static float integral = 0;
+static float tailWindow[TAIL_WINDOW_SIZE];
 
 
-double round2(double x) {
+float round2(float x) {
     return round(x * 100.0) / 100.0;
 }
 
@@ -21,7 +21,7 @@ void switchingDetectionOnline_Reset(void) {
 	memset(tailWindow, 0, sizeof(tailWindow));
 }
 
-double switchingDetectionOnline_Calculate(int16_t adcValue, double timestep) {
+float switchingDetectionOnline_Calculate(int16_t adcValue, float timestep) {
 	// running integral
 	integral += adcValue*timestep;
 	
@@ -29,7 +29,7 @@ double switchingDetectionOnline_Calculate(int16_t adcValue, double timestep) {
 	++n;
 
 	// Calculate tail mean
-	double tailMean = 0;
+	float tailMean = 0;
 	if (n > TAIL_WINDOW_SIZE) {
 		uint16_t i;
 		for (i=0; i < TAIL_WINDOW_SIZE; ++i) {
@@ -41,8 +41,8 @@ double switchingDetectionOnline_Calculate(int16_t adcValue, double timestep) {
 		return 0;
 	}
 
-	double maxIntegral = n * timestep;
-	double currIntegral = maxIntegral - integral / tailMean;
+	float maxIntegral = n * timestep;
+	float currIntegral = maxIntegral - maxIntegral - integral / tailMean;
 	currIntegral = fabs(currIntegral);
 	currIntegral = round2(currIntegral);
 
