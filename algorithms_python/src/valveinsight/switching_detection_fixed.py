@@ -15,5 +15,5 @@ def switching_detection_fixed(time_ms:np.array, current_mA:np.array):
     time_step_ms = time_ms[1] - time_ms[0]
 
     integral = current_inv_norm.sum()*time_step_ms
-    integral = np.round(integral, 4)
+    integral = np.round(integral, 2)
     return integral, tail_mean

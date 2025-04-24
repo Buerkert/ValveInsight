@@ -26,5 +26,5 @@ class switching_detection_online:
 
         max_integral = self.n * timestep_ms
         current_integral = max_integral - self.integral / tail_mean
-        current_integral = np.round(current_integral, 4)
+        current_integral = np.round(current_integral, 2)
         return current_integral, tail_mean

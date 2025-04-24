@@ -36,5 +36,5 @@ def switching_detection_tail_slope(time:np.array, current:np.array, slope_thresh
     time_step_ms = time[1] - time[0]
 
     integral = current_inv_norm.sum()*time_step_ms
-    integral = np.round(integral, 4)
+    integral = np.round(integral, 2)
     return integral, tail_mean

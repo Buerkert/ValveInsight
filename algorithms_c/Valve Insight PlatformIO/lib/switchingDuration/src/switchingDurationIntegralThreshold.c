@@ -45,7 +45,7 @@ double switchingDurationIntegralThreshold_Calculate(double timestep, double thre
 	tailMean /= TAIL_WINDOW_SIZE;
 
     double integral = 0;
-    size_t durationIdx = INRUSH_CURRENT_VALUES;
+    size_t durationIdx = INRUSH_CURRENT_VALUES-1;
 	for (uint16_t i = 0; i < INRUSH_CURRENT_VALUES; ++i) {
         double currentInv = tailMean - (double)current[i];
         double currentInvNorm = currentInv / tailMean;
