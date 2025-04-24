@@ -30,18 +30,18 @@ float switchingDetectionOnline_Calculate(int16_t adcValue, float timestep) {
 	tailWindow[n % TAIL_WINDOW_SIZE] = adcValue;
 	++n;
 
+	if (n <= TAIL_WINDOW_SIZE) {
+    // Not a full tail window acquired yet. Stop here.
+    return 0;
+  }
+
 	// Calculate tail mean
 	float tailMean = 0;
-	if (n > TAIL_WINDOW_SIZE) {
-		uint16_t i;
-		for (i=0; i < TAIL_WINDOW_SIZE; ++i) {
-			tailMean += tailWindow[i];
-		}
-		tailMean /= TAIL_WINDOW_SIZE;
-	}else{
-		// Not a full tail window acquired yet. Stop here.
-		return 0;
+	uint16_t i;
+	for (i=0; i < TAIL_WINDOW_SIZE; ++i) {
+		tailMean += tailWindow[i];
 	}
+	tailMean /= TAIL_WINDOW_SIZE;
 
 	float maxIntegral = n * timestep;
 	float currIntegral = maxIntegral - maxIntegral - (float)valuesSum * timestep / tailMean;
