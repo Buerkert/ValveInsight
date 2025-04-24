@@ -1,4 +1,4 @@
-#include "switchingDetectionFixed.h"
+#include "switchingDetectionOnline.h"
 
 
 #include <math.h>
