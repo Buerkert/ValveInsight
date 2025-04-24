@@ -23,15 +23,17 @@ If you have specific requirements or are interested in a tailored solution, plea
 The algorithms are available in both Python and C, allowing flexible integration into various environments.  
 
 ### Python
-Interactive [Jupyter Notebooks](https://jupyter.org) are provided for demonstration and visualization. View them in github or [VSCode](https://code.visualstudio.com/). If necessary, run them in a Jupyter environment. A Dockerfile is included to support environment setup if required. 
+The [python implementation](algorithms_python) is delivered as a standard python package with unit tests and a configuration file for [Visual Studio Code](https://code.visualstudio.com/). 
+
+### C
+The [C implementation](algorithms_c) is delivered as a [PlatformIO](https://platformio.org) project with unit tests.
+
+### Jupyter
+Interactive [Jupyter Notebooks](https://jupyter.org) are provided for demonstration and visualization. View them in github or Visual Studio Code. If necessary, run them in a Jupyter environment. A Dockerfile is included to support environment setup if required. 
 
 - **[Getting started notebook](01%20-%20Switching%20analysis%20-%20Getting%20started.ipynb):** A guided introduction to the core algorithms. 
 
 - **[Advanced notebook](02%20-%20Switching%20analysis%20-%20Advanced.ipynb):** Explores more sophisticated use cases and edge-case handling.
-
-
-### C
-The C implementations are delivered as a [PlatformIO](https://platformio.org) project, complete with unit tests for verification and validation.
 
 
 ## Additional Resources
