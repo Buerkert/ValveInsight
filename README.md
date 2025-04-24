@@ -23,7 +23,7 @@ If you have specific requirements or are interested in a tailored solution, plea
 The algorithms are available in both Python and C, allowing flexible integration into various environments.  
 
 ### Python
-Interactive [Jupyter Notebooks](https://jupyter.org) are provided for demonstration and visualization. Run them by using the provided Dockerfile or in any local Jupyter environment. 
+Interactive [Jupyter Notebooks](https://jupyter.org) are provided for demonstration and visualization. View them in github or [VSCode](https://code.visualstudio.com/). If necessary, run them in a Jupyter environment. A Dockerfile is included to support environment setup if required. 
 
 - **[Getting started notebook](01%20-%20Switching%20analysis%20-%20Getting%20started.ipynb):** A guided introduction to the core algorithms. 
 
