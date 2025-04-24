@@ -12,10 +12,6 @@ static int16_t current[INRUSH_CURRENT_VALUES];
 // avoid increment overflow -> do not allow buffer size greater than SIZE_MAX
 _Static_assert(INRUSH_CURRENT_VALUES < SIZE_MAX, "Buffer is too big!");
 
-float round2(float x) {
-    return round(x * 100.0) / 100.0;
-}
-
 void switchingDetectionFixed_Reset(void) {
 	n = 0;
 	memset(current, 0, sizeof(current));
@@ -52,7 +48,6 @@ float switchingDetectionFixed_Calculate(float timestep) {
 	integral = INRUSH_CURRENT_VALUES - (float)sum / tailMean ;
 	integral *= timestep;
 	integral = fabs(integral); 
-	integral = round2(integral);
 
 	return integral;
 }
