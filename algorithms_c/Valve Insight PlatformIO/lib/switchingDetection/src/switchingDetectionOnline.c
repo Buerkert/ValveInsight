@@ -42,10 +42,8 @@ float switchingDetectionOnline_Calculate(int16_t adcValue, float timestep) {
     return 0;
   }
 
-	float tailMean = (float)tailSum / TAIL_WINDOW_SIZE;
+	float currIntegral = timestep * (n - TAIL_WINDOW_SIZE * (float)valuesSum / float(tailSum));
 
-	float maxIntegral = n * timestep;
-	float currIntegral = maxIntegral - maxIntegral - (float)valuesSum * timestep / tailMean;
 	currIntegral = fabs(currIntegral);
 	currIntegral = round2(currIntegral);
 
