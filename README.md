@@ -1,21 +1,21 @@
 <img src="images/logo.png" alt="Bürkert Fluid Control Systems" width="240">
 
 
-# Valve insight - Switching analysis
+# ValveInsight - Switching analysis
 
-This repository presents selected algorithms from the **Valve Insight** portfolio, focused on the evaluation and analysis of valve switching behavior based on inrush current signals.  
+This repository presents selected algorithms from the **ValveInsight** portfolio, focused on the evaluation and analysis of valve switching behavior based on inrush current signals.  
 
 ## Overview
 
 - **Switching Fault Detection**  
-  Calculate a value that indicates if a valve has successfully completed its switching operation or not.
+  Calculate a value that indicates if a valve has successfully completed its inrush based switching operation or not.
   
 - **Switching Duration Detection**  
   Calculate the duration of valve switching operation.
 
-The sample data included in this repository was recorded using the Valve Insight Evaluation Kit. For comparison, we also provide example curves captured using high-end laboratory instrumentation.
+The sample data included in this repository was recorded using the ValveInsight Evaluation Kit. For comparison, we also provide example curves captured using high-end laboratory instrumentation.
 
-If you have specific requirements or are interested in a tailored solution, please don’t hesitate to contact us.
+If you have specific requirements or are interested in a tailored solution, please don’t hesitate to [contact us](https://www.buerkert.de/de/landingpage/zuverlaessige-analysegeraete-durch-diagnose-mit-valveinsight).
 
 
 ## Getting Started
@@ -38,7 +38,7 @@ Interactive [Jupyter Notebooks](https://jupyter.org) are provided for demonstrat
 
 ## Additional Resources
 
-More information is available on our [Valve Insight landing page](https://www.buerkert.de/de/landingpage/zuverlaessige-analysegeraete-durch-diagnose-mit-valveinsight).
+More information is available on our [ValveInsight landing page](https://www.buerkert.de/de/landingpage/zuverlaessige-analysegeraete-durch-diagnose-mit-valveinsight). Register to download a whitepaper with technical details. 
 
 
 ## License
