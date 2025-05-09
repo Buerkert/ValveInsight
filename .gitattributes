@@ -13,8 +13,8 @@
 # -text so git knows the files are not text files
 
 # Pictures 
-*.png filter=lfs diff=lfs merge=lfs -text
-*.jpg filter=lfs diff=lfs merge=lfs -text
+#*.png filter=lfs diff=lfs merge=lfs -text
+#*.jpg filter=lfs diff=lfs merge=lfs -text
 
 # Office
 *.xlsx filter=lfs diff=lfs merge=lfs -text
