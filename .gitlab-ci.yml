@@ -3,7 +3,7 @@
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
   PROJECT_SUBDIR_PYTHON: "algorithms_python"
-  PROJECT_SUBDIR_C: algorithms_c/Valve Insight PlatformIO
+  PROJECT_SUBDIR_C: algorithms_c/ValveInsightPlatformIO
 
 
 # different stages in the pipeline
