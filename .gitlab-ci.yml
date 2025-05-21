@@ -8,8 +8,8 @@ variables:
 
 # different stages in the pipeline
 stages:
-  - Test_python
   - Test_C
+  - Test_python
 
 
 pytest:
@@ -54,10 +54,12 @@ c_tests:
   # 1M+ pull count at hub.docker.com
   image: 
     name: petewall/platformio:6.1.6
-    entrypoint: ["/bin/sh", "-c"]
+#    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ['']
   stage: Test_C
   script:
-    - pio test -d "$PROJECT_SUBDIR_C"
+    - cd "$PROJECT_SUBDIR_C"
+    - pio test
   artifacts:
     when: always
     paths:

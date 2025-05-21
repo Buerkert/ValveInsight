@@ -4,6 +4,7 @@
 extern "C" {
 #endif
 
+#include <cstddef>
 #include <stdint.h>
 
 /** @brief Reset internal state and clear ADC buffer. */
