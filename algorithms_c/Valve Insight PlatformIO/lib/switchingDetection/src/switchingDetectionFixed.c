@@ -9,23 +9,18 @@
 
 static size_t n;
 static int16_t current[INRUSH_CURRENT_VALUES];
-// avoid increment overflow -> do not allow buffer size greater than SIZE_MAX
-_Static_assert(INRUSH_CURRENT_VALUES < SIZE_MAX, "Buffer is too big!");
 
 void switchingDetectionFixed_Reset(void) {
 	n = 0;
 	memset(current, 0, sizeof(current));
 }
 
-bool switchingDetectionFixed_fast_StoreADC(int16_t adcValue) {
-	// Store current adc value
-	if(n < INRUSH_CURRENT_VALUES) {
-		current[n] = adcValue;
-	  ++n;
-    return true;
-	}
-	// buffer is full
-  return false;
+void switchingDetectionFixed_fast_StoreADC(int16_t adcValue) {
+  // Store current adc value. If the buffer is full, stop writing values.
+  if(n < INRUSH_CURRENT_VALUES) {
+    current[n] = adcValue;
+    ++n;
+  }
 }
 
 float switchingDetectionFixed_Calculate(float timestep) {
