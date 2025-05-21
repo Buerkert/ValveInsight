@@ -10,12 +10,16 @@
 static size_t n;
 static int16_t current[INRUSH_CURRENT_VALUES];
 
+float round2(float x) {
+  return round(x * 100.0) / 100.0;
+}
+
 void switchingDetectionFixed_Reset(void) {
 	n = 0;
 	memset(current, 0, sizeof(current));
 }
 
-void switchingDetectionFixed_fast_StoreADC(int16_t adcValue) {
+void switchingDetectionFixed_StoreADC(int16_t adcValue) {
   // Store current adc value. If the buffer is full, stop writing values.
   if(n < INRUSH_CURRENT_VALUES) {
     current[n] = adcValue;
@@ -40,15 +44,16 @@ float switchingDetectionFixed_Calculate(float timestep) {
     sum += current[i];
   }
 
+// Explanation of the simplification of the integral calculation
+// 1. integral += (tailMean - (float)current[i]) / tailMean;
+// 2. integral += tailMean / tailMean - (float)current[i] / tailMean;
+// 3. integral += 1 - (float)current[i] / tailMean;
+// 4. integral = INRUSH_CURRENT_VALUES - sum / tailMean;
+
 	integral = INRUSH_CURRENT_VALUES - (float)sum / tailMean ;
 	integral *= timestep;
 	integral = fabs(integral); 
+  integral = round2(integral);
 
 	return integral;
 }
-
-// Explanation of the integral calculation
-// integral += (tailMean - (float)current[i]) / tailMean;
-// integral += tailMean / tailMean - (float)current[i] / tailMean;
-// integral += 1 - (float)current[i] / tailMean;
-// integral = INRUSH_CURRENT_VALUES - sum / tailMean;

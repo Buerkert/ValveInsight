@@ -10,7 +10,7 @@ extern "C" {
 /** @brief Reset internal state and clear ADC buffer. */
 void switchingDetectionFixed_Reset(void);
 
-bool switchingDetectionFixed_StoreADC(int16_t adcValue);
+void switchingDetectionFixed_StoreADC(int16_t adcValue);
 float switchingDetectionFixed_Calculate(float timestep);
 
 #ifdef __cplusplus
