@@ -11,27 +11,17 @@ static size_t n;
 static int16_t current[INRUSH_CURRENT_VALUES];
 
 
-// Increment without overflow 
-size_t safe_increment(size_t x) {
-    if (x < SIZE_MAX) {
-        return x + 1;
-    } else {
-        return x;
-    }
-}
-
-
 void switchingDurationIntegralThreshold_Reset(void) {
 	n = 0;
 	memset(current, 0, sizeof(current));
 }
 
 void switchingDurationIntegralThreshold_StoreADC(int16_t adcValue) {
-	// Store current adc value
-	if(n < INRUSH_CURRENT_VALUES) {
-		current[n] = adcValue;
-	}
-	n = safe_increment(n);
+  // Store current adc value. If the buffer is full, stop writing values.
+  if(n < INRUSH_CURRENT_VALUES) {
+    current[n] = adcValue;
+    ++n;
+  }
 }
 
 double switchingDurationIntegralThreshold_Calculate(double timestep, double threshold) {
