@@ -1,54 +1,42 @@
-# Official language image. Look for the different tagged releases at:
-# https://hub.docker.com/r/library/python/tags/
-image: python:3.11
-
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-  PROJECT_SUBDIR: "algorithms_python"
-
-
-# Pip's cache doesn't store the python packages
-# https://pip.pypa.io/en/stable/reference/pip_install/#caching
-#
-# If you want to also cache the installed packages, you have to install
-# them in a virtualenv and cache it as well.
-cache:
-  paths:
-    - .cache/pip
-    - env/
-
-# commands to run in the Docker container before starting each job.
-before_script:
-  - python -V  # Print out python version for debugging
-  - python -m venv env
-  - source env/bin/activate
-  - python -m pip install --upgrade pip
-  - pip install -r $PROJECT_SUBDIR/requirements.txt
+  PROJECT_SUBDIR_PYTHON: "algorithms_python"
+  PROJECT_SUBDIR_C: algorithms_c/Valve Insight PlatformIO
 
 
 # different stages in the pipeline
 stages:
-#  - Static Analysis
-  - Test
-  - Coverage
+  - Test_python
+  - Test_C
 
-#defines the job in Static Analysis
-#pylint:
-#  stage: Static Analysis
-#  allow_failure: true
-#  script:
-#  # Ignore line limit
-#  - pylint -d C0103 -d C0114 -d C0115 -d C0116 -d C0301 -d R0913 -d R0914 src/lazyloader/*.py
 
 pytest:
-  stage: Test
-  # Don't use. This would override the global before_script
-#  before_script:
+  # Official python language image. Look for the different tagged releases at:
+  # https://hub.docker.com/r/library/python/tags/
+  image: python:3.11
+  stage: Test_python
+  # Pip's cache doesn't store the python packages
+  # https://pip.pypa.io/en/stable/reference/pip_install/#caching
+  #
+  # If you want to also cache the installed packages, you have to install
+  # them in a virtualenv and cache it as well.
+  cache:
+    paths:
+      - $PIP_CACHE_DIR/
+      - env/
+  # commands to run in the Docker container before starting each job.
+  before_script:
+    - python -V  # Print out python version for debugging
+    - python -m venv env
+    - source env/bin/activate
+    - python -m pip install --upgrade pip
+    - pip install -r $PROJECT_SUBDIR_PYTHON/requirements.txt
   script:
+    - echo "Testing python code"
     - pip install pytest pytest-cov
-    - pytest $PROJECT_SUBDIR/tests/ --junitxml=report.xml --cov-report=html --cov=$PROJECT_SUBDIR/src/
+    - pytest $PROJECT_SUBDIR_PYTHON/tests/ --junitxml=report.xml --cov-report=html --cov=$PROJECT_SUBDIR_PYTHON/src/
     - coverage xml
   artifacts:
     when: always
@@ -59,4 +47,19 @@ pytest:
       coverage_report:
         coverage_format: cobertura
         path: coverage.xml
+    expire_in: 2 weeks
+
+
+c_tests:
+  # 1M+ pull count at hub.docker.com
+  image: 
+    name: petewall/platformio:6.1.6
+    entrypoint: ["/bin/sh", "-c"]
+  stage: Test_C
+  script:
+    - pio test -d "$PROJECT_SUBDIR_C"
+  artifacts:
+    when: always
+    paths:
+      - "$PROJECT_SUBDIR_C/.pio/build"
     expire_in: 2 weeks
