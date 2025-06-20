@@ -1,0 +1,67 @@
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  PROJECT_SUBDIR_PYTHON: "algorithms_python"
+  PROJECT_SUBDIR_C: algorithms_c/ValveInsightPlatformIO
+
+
+# different stages in the pipeline
+stages:
+  - Test_C
+  - Test_python
+
+
+pytest:
+  # Official python language image. Look for the different tagged releases at:
+  # https://hub.docker.com/r/library/python/tags/
+  image: python:3.11
+  stage: Test_python
+  # Pip's cache doesn't store the python packages
+  # https://pip.pypa.io/en/stable/reference/pip_install/#caching
+  #
+  # If you want to also cache the installed packages, you have to install
+  # them in a virtualenv and cache it as well.
+  cache:
+    paths:
+      - $PIP_CACHE_DIR/
+      - env/
+  # commands to run in the Docker container before starting each job.
+  before_script:
+    - python -V  # Print out python version for debugging
+    - python -m venv env
+    - source env/bin/activate
+    - python -m pip install --upgrade pip
+    - pip install -r $PROJECT_SUBDIR_PYTHON/requirements.txt
+  script:
+    - echo "Testing python code"
+    - pip install pytest pytest-cov
+    - pytest $PROJECT_SUBDIR_PYTHON/tests/ --junitxml=report.xml --cov-report=html --cov=$PROJECT_SUBDIR_PYTHON/src/
+    - coverage xml
+  artifacts:
+    when: always
+    paths:
+      - htmlcov
+    reports:
+      junit: report.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+    expire_in: 2 weeks
+
+
+c_tests:
+  # 1M+ pull count at hub.docker.com
+  image: 
+    name: petewall/platformio:6.1.6
+#    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ['']
+  stage: Test_C
+  script:
+    - cd "$PROJECT_SUBDIR_C"
+    - pio test
+  artifacts:
+    when: always
+    paths:
+      - "$PROJECT_SUBDIR_C/.pio/build"
+    expire_in: 2 weeks

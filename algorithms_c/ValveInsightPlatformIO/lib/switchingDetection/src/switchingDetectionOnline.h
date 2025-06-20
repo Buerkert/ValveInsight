@@ -8,8 +8,7 @@ extern "C" {
 
 /** @brief Reset internal state. */
 void switchingDetectionOnline_Reset(void);
-
-double switchingDetectionOnline_Calculate(int16_t adcValue, double timestep);
+float switchingDetectionOnline_Calculate(int16_t adcValue, float timestep);
 
 #ifdef __cplusplus
 }
