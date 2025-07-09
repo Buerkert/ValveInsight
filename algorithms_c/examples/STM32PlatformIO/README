@@ -1,8 +1,0 @@
-To run your own example set the right parameters in the ini-file and write your code in the main file using the methods of the lib
-
-Hardware connections:
-ValveInsightDemoBoard   -   STM32_Nucleo-F091RC
-                GND     -   GND
-                1       -   3V3
-                7       -   A0
-                14      -   D2
