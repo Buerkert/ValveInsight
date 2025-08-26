@@ -2,19 +2,24 @@
 #include <stdio.h>
 #include <string.h>
 #include "switchingDetectionFixed.h"    // include the switchingDetectionFixed algorithm header from the main platformio project
-#define TIMESTEP 1
+
+static const float TIMESTEP_ms = 0.05;
+uint32_t TIMESTEP_us;
 
 void SystemClock_Config(void);              
 void MX_GPIO_Init(void);
 void MX_ADC_Init(void);
 void MX_USART2_UART_Init(void);
+void MX_TIM14_Init(void);
 
 ADC_HandleTypeDef hadc;
 UART_HandleTypeDef huart2;
-int16_t current_int16;
-int integral_value;
+TIM_HandleTypeDef htim14;
+
+int16_t current;
+double integral;
 char msg[64];
-uint32_t adc_value;
+uint32_t adcValue;
 volatile uint32_t count = 0;
 
 int main(void) {
@@ -23,29 +28,37 @@ int main(void) {
     MX_GPIO_Init();
     MX_ADC_Init();
     MX_USART2_UART_Init();
+    MX_TIM14_Init();
+    
+    HAL_ADC_Start(&hadc);
+    TIMESTEP_us = (uint32_t)(TIMESTEP_ms * 1000);
 
     while (true) {
-        switchingDetectionFixed_Reset();                                            // reset the algorithm
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);                      // valve off
-        for (uint32_t i = 0; i < 2000000; i++) {count++;}                           // short delay
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);                        // valve on    
-        for(int i=0; i<500; i++){                                                   // messurement: 500 runs equals 16 ms in my case
-            HAL_ADC_Start(&hadc);
-            if(HAL_ADC_PollForConversion(&hadc, 100) == HAL_OK) {  
-                adc_value = HAL_ADC_GetValue(&hadc);                                // read ADC value
+        switchingDetectionFixed_Reset();  // reset the algorithm
+
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);  // valve off
+        HAL_Delay(50);  // wait 50 ms
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);  // valve on
+
+        for (int i=0; i<500; i++) {  // measure 500 values
+            uint32_t startTime = __HAL_TIM_GET_COUNTER(&htim14);
+
+            if (HAL_ADC_PollForConversion(&hadc, 10) == HAL_OK) {
+                adcValue = HAL_ADC_GetValue(&hadc);  // read ADC value
             }
-            current_int16 = adc_value / 8;
-            switchingDetectionFixed_StoreADC(current_int16);                        // store messured current in the algorithm
-            for (uint32_t j = 0; j < 100; j++) {count++;}
+            current = (int16_t)(adcValue / 8);
+            switchingDetectionFixed_StoreADC(current);  // store measured current in the algorithm
+            
+            while ((__HAL_TIM_GET_COUNTER(&htim14) - startTime) < TIMESTEP_us) { /* spin briefly */ }  // Wait until time complete
         }
-        integral_value = (int)switchingDetectionFixed_Calculate(TIMESTEP);          // calculate the integral value
-        snprintf(msg, sizeof(msg), "integral_value: %d \r\n", integral_value);
-        HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);      // send the integral value via UART
-        for (uint32_t i = 0; i < 2000000; i++) {count++;}                           // short delay
+
+        integral = switchingDetectionFixed_Calculate(TIMESTEP_ms);  // calculate the integral value
+        snprintf(msg, sizeof(msg), "integral_value: %.6f \r\n", integral);
+        HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);  // send the integral value via UART
+        
+        HAL_Delay(50);  // wait 50 ms
     }
 }
-
-
 
 
 
@@ -73,7 +86,7 @@ void SystemClock_Config(void) {
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
     HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1);
 
-    HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000); // 1ms Takt
+    HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);  // 1 ms Takt
     HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
     HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
@@ -137,6 +150,16 @@ void MX_USART2_UART_Init(void) {
     HAL_UART_Init(&huart2);
 }
 
+void MX_TIM14_Init(void) {
+    __HAL_RCC_TIM14_CLK_ENABLE();
+    htim14.Instance = TIM14;
+    htim14.Init.Prescaler = (HAL_RCC_GetHCLKFreq() / 1000000UL) - 1; // 1 MHz
+    htim14.Init.CounterMode = TIM_COUNTERMODE_UP;
+    htim14.Init.Period = 0xFFFF;
+    htim14.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+    HAL_TIM_Base_Init(&htim14);
+    HAL_TIM_Base_Start(&htim14);
+}
 
 void ADC1_COMP_IRQHandler(void)
 {
