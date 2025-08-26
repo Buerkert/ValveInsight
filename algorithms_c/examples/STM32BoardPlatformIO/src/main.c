@@ -42,7 +42,7 @@ int main(void) {
         for (int i=0; i<500; i++) {  // measure 500 values
             uint32_t startTime = __HAL_TIM_GET_COUNTER(&htim14);
 
-            if (HAL_ADC_PollForConversion(&hadc, 10) == HAL_OK) {
+            if (HAL_ADC_PollForConversion(&hadc, 10) == HAL_OK) {  // use old ADC value if this fails
                 adcValue = HAL_ADC_GetValue(&hadc);  // read ADC value
             }
             current = (int16_t)(adcValue / 8);
