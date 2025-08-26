@@ -20,7 +20,6 @@ int16_t current;
 double integral;
 char msg[64];
 uint32_t adcValue;
-volatile uint32_t count = 0;
 
 int main(void) {
     HAL_Init();
