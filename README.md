@@ -43,7 +43,7 @@ Interactive [Jupyter Notebooks](https://jupyter.org) are provided for demonstrat
 
 ## Additional Resources
 
-You find hands-on instruction of how to implement ValveInsight into your application in our [application manual](info/ValveInsight-Data_acquisition-Application_manual.pdf). More information is available on our [ValveInsight landing page](https://www.buerkert.de/de/landingpage/zuverlaessige-analysegeraete-durch-diagnose-mit-valveinsight). Register to download a whitepaper with technical details. 
+You find hands-on instruction of how to implement ValveInsight into your application in our [application manual](info/ValveInsight%20-%20Data%20acquisition%20-%20Application%20manual.pdf). More information is available on our [ValveInsight landing page](https://www.buerkert.de/de/landingpage/zuverlaessige-analysegeraete-durch-diagnose-mit-valveinsight). Register to download a whitepaper with technical details. 
 
 
 ## License
